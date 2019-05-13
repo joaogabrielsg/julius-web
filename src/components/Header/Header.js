@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-function ButtonAppBar(props) {
+const Header = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -38,10 +38,10 @@ function ButtonAppBar(props) {
       </AppBar>
     </div>
   );
-}
+};
 
-ButtonAppBar.propTypes = {
+Header.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ButtonAppBar);
+export default withStyles(styles)(Header);

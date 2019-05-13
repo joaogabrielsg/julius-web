@@ -1,18 +1,11 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import './App.css';
+import withRoot from './hoc/withRoot';
 
-import Header from './components/Header/Header';
+import Login from './containers/Login/Login';
 
 function App() {
-  return (
-    <div className="App">
-      <Header />
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
-    </div>
-  );
+  return <Login />;
 }
 
-export default App;
+export default withRoot(App);

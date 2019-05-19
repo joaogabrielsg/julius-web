@@ -2,10 +2,10 @@ import React from 'react';
 import './App.css';
 import withRoot from './hoc/withRoot';
 
-import Login from './containers/Login/Login';
+import AppRoutes from './routes/App';
 
 function App() {
-  return <Login />;
+  return <AppRoutes />;
 }
 
 export default withRoot(App);

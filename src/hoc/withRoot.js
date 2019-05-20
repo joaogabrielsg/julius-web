@@ -10,6 +10,12 @@ const theme = createMuiTheme({
       dark: '',
       contrastText: '#fff',
     },
+    secondary: {
+      main: '#32AE2B',
+    },
+    inherit: {
+      main: '#DE5246',
+    },
     error: {
       main: '#e73737',
     },

@@ -31,9 +31,9 @@ const Header = props => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            News
+            Julius
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">Sair</Button>
         </Toolbar>
       </AppBar>
     </div>

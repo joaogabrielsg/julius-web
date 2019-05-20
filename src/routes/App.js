@@ -1,16 +1,27 @@
 import React from 'react';
 
-import { Switch, Route } from 'react-router-dom';
-import Login from '../containers/Login/Login';
-import Register from '../containers/Register/Register';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+
+import Header from '../components/Header/Header';
+import NewGoal from '../containers/Goal/NewGoal';
 
 const App = () => {
   return (
     <Switch>
-      <Route path="/login" exact component={Login} />
-      <Route path="/cadastro" exact component={Register} />
+      <Route
+        path="/"
+        render={() => (
+          <React.Fragment>
+            <Header />
+            <Switch>
+              <Route path="/metas/adicionar" exact component={NewGoal} />
+              <Redirect to="/login" />
+            </Switch>
+          </React.Fragment>
+        )}
+      />
     </Switch>
   );
 };
 
-export default App;
+export default withRouter(App);

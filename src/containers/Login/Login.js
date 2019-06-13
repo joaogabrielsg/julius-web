@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,6 +12,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+
+import { auth } from '../../store/actions/auth';
 
 class Login extends Component {
   constructor() {
@@ -22,6 +27,16 @@ class Login extends Component {
 
   handleChange = field => event => {
     this.setState({ [field]: event.target.value });
+  };
+
+  onConfirm = async () => {
+    const { onAuth, history } = this.props;
+    const { email, password } = this.state;
+
+    try {
+      await onAuth(email, password);
+      history.push('/metas/adicionar');
+    } catch (error) {}
   };
 
   render() {
@@ -62,7 +77,13 @@ class Login extends Component {
             </CardContent>
             <CardActions>
               <div className={classes.buttons}>
-                <Button size="large" variant="contained" color="primary" className={classes.button}>
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={this.onConfirm}
+                >
                   Entrar
                 </Button>
               </div>
@@ -122,7 +143,17 @@ const styles = {
 };
 
 Login.propTypes = {
+  onAuth: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+const mapDispatchToProps = dispatch => ({
+  onAuth: (code, password) => dispatch(auth(code, password)),
+});
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(withStyles(styles)(Login))
+);

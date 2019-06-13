@@ -25,15 +25,17 @@ const Header = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="default">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
+          <Typography variant="h6" color="primary" className={classes.grow}>
             Julius
           </Typography>
-          <Button color="inherit">Sair</Button>
+          <Button color="primary" variant="contained">
+            Sair
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

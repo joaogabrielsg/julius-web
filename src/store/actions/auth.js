@@ -16,3 +16,24 @@ export const auth = (code, password) => dispatch =>
     .catch(error => {
       return Promise.reject();
     });
+
+export const logoutSuccess = () => ({
+  type: actions.AUTH_LOGOUT,
+});
+
+export const logout = () => (dispatch, getState) =>
+  axios
+    .post(
+      '/logout',
+      {},
+      {
+        headers: { Authorization: `Bearer ${getState().auth.token}` },
+      }
+    )
+    .then(() => {
+      dispatch(logoutSuccess());
+      return Promise.resolve();
+    })
+    .catch(() => {
+      return Promise.reject();
+    });

@@ -21,8 +21,7 @@ const styles = {
   },
 };
 
-const Header = props => {
-  const { classes } = props;
+const Header = ({ onLogout, classes }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -33,7 +32,7 @@ const Header = props => {
           <Typography variant="h6" color="primary" className={classes.grow}>
             Julius
           </Typography>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={onLogout}>
             Sair
           </Button>
         </Toolbar>
@@ -43,6 +42,7 @@ const Header = props => {
 };
 
 Header.propTypes = {
+  onLogout: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 

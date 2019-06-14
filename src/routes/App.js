@@ -5,6 +5,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import Header from '../components/Header/Header';
 import NewGoal from '../containers/Goal/NewGoal';
+import NewFinance from '../containers/Finance/NewFinance';
 
 import { logout } from '../store/actions/auth';
 
@@ -22,6 +23,7 @@ const App = ({ onLogout, history }) => {
             />
             <Switch>
               <Route path="/metas/adicionar" exact component={NewGoal} />
+              <Route path="/financas/adicionar" exact component={NewFinance} />
               <Redirect to="/login" />
             </Switch>
           </React.Fragment>

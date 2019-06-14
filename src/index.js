@@ -10,6 +10,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import authReducer from './store/reducers/auth';
+import goalReducer from './store/reducers/goal';
 
 const composeEnhancers =
   (process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null) ||
@@ -17,6 +18,7 @@ const composeEnhancers =
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  goal: goalReducer,
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

@@ -12,7 +12,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-class NewGoal extends Component {
+class NewFinance extends Component {
   constructor() {
     super();
 
@@ -27,15 +27,7 @@ class NewGoal extends Component {
     this.setState({ [field]: event.target.value });
   };
 
-  onConfirm = async () => {
-    const { onCreateNewGoal, history } = this.props;
-    const { title, date, value } = this.state;
-
-    try {
-      await onCreateNewGoal(title, date, value);
-      history.push('/financas/adicionar');
-    } catch (error) {}
-  };
+  onConfirm = async () => {};
 
   render() {
     const { classes } = this.props;
@@ -48,7 +40,7 @@ class NewGoal extends Component {
                 <TextField
                   className={classes.input}
                   id="standard-name"
-                  label="Título da meta"
+                  label="Título"
                   value={this.state.title}
                   onChange={this.handleChange('title')}
                   margin="normal"
@@ -58,19 +50,9 @@ class NewGoal extends Component {
                 <TextField
                   className={classes.input}
                   id="standard-name"
-                  label="Data de inicio do objetivo"
+                  label="Valor"
                   value={this.state.date}
                   onChange={this.handleChange('date')}
-                  margin="normal"
-                />
-              </div>
-              <div className={classes.inputFields}>
-                <TextField
-                  className={classes.input}
-                  id="standard-name"
-                  label="Valor total da meta"
-                  value={this.state.value}
-                  onChange={this.handleChange('value')}
                   margin="normal"
                 />
               </div>
@@ -82,7 +64,7 @@ class NewGoal extends Component {
                 </Button>
               </div>
               <div className={classes.buttons}>
-                <Button color="secondary" className={classes.button} onClick={this.onConfirm}>
+                <Button color="secondary" className={classes.button}>
                   Confirmar
                 </Button>
               </div>
@@ -134,7 +116,7 @@ const styles = {
   },
 };
 
-NewGoal.propTypes = {
+NewFinance.propTypes = {
   onCreateNewGoal: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -148,5 +130,5 @@ export default withRouter(
   connect(
     null,
     mapDispatchToProps
-  )(withStyles(styles)(NewGoal))
+  )(withStyles(styles)(NewFinance))
 );

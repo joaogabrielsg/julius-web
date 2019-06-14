@@ -10,6 +10,7 @@ export const auth = (code, password) => dispatch =>
   axios
     .post('/login', { code, password })
     .then(response => {
+      localStorage.setItem('token', response.data.access_token);
       dispatch(authSuccess(response.data.access_token));
       return Promise.resolve();
     })
@@ -31,9 +32,19 @@ export const logout = () => (dispatch, getState) =>
       }
     )
     .then(() => {
+      localStorage.removeItem('token');
       dispatch(logoutSuccess());
       return Promise.resolve();
     })
     .catch(() => {
       return Promise.reject();
     });
+
+export const checkAuth = () => dispatch => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    dispatch(authSuccess(token));
+  } else {
+    dispatch(logoutSuccess());
+  }
+};

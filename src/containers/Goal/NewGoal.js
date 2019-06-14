@@ -33,7 +33,7 @@ class NewGoal extends Component {
 
     try {
       await onCreateNewGoal(title, date, value);
-      history.push('/financas/adicionar');
+      history.push('/dashboard');
     } catch (error) {}
   };
 

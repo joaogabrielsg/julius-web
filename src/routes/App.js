@@ -6,35 +6,46 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import NewGoal from '../containers/Goal/NewGoal';
 import NewFinance from '../containers/Finance/NewFinance';
+import Dashboard from '../containers/Dashboard/Dashboard';
 
-import { logout } from '../store/actions/auth';
+import { logout, checkAuth } from '../store/actions/auth';
 
-const App = ({ onLogout, history }) => {
-  return (
-    <Switch>
-      <Route
-        path="/"
-        render={() => (
-          <React.Fragment>
-            <Header
-              onLogout={() => {
-                onLogout().then(() => history.push('/login'));
-              }}
-            />
-            <Switch>
-              <Route path="/metas/adicionar" exact component={NewGoal} />
-              <Route path="/financas/adicionar" exact component={NewFinance} />
-              <Redirect to="/login" />
-            </Switch>
-          </React.Fragment>
-        )}
-      />
-    </Switch>
-  );
-};
+class App extends React.Component {
+  componentWillMount() {
+    const { onCheckAuth } = this.props;
+    onCheckAuth();
+  }
+
+  render() {
+    const { onLogout, history } = this.props;
+    return (
+      <Switch>
+        <Route
+          path="/"
+          render={() => (
+            <React.Fragment>
+              <Header
+                onLogout={() => {
+                  onLogout().then(() => history.push('/login'));
+                }}
+              />
+              <Switch>
+                <Route path="/metas/adicionar" exact component={NewGoal} />
+                <Route path="/financas/adicionar" exact component={NewFinance} />
+                <Route path="/dashboard" exact component={Dashboard} />
+                <Redirect to="/login" />
+              </Switch>
+            </React.Fragment>
+          )}
+        />
+      </Switch>
+    );
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   onLogout: (code, password) => dispatch(logout(code, password)),
+  onCheckAuth: () => dispatch(checkAuth()),
 });
 
 export default withRouter(

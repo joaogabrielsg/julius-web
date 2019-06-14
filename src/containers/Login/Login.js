@@ -35,7 +35,7 @@ class Login extends Component {
 
     try {
       await onAuth(email, password);
-      history.push('/metas/adicionar');
+      history.push('/dashboard');
     } catch (error) {}
   };
 

@@ -11,6 +11,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         goalsList: state.goalsList.concat(action.newGoal),
       };
+    case actions.GET_GOALS_LIST_SUCCESS:
+      return {
+        ...state,
+        goalsList: action.goalsList,
+      };
 
     default:
       return state;

@@ -34,3 +34,22 @@ export const createNewGoal = (finishDate, title, totalValue) => (dispatch, getSt
       console.log(error);
       return Promise.reject();
     });
+
+export const getGoalsSuccess = goalsList => ({
+  type: actions.GET_GOALS_LIST_SUCCESS,
+  goalsList,
+});
+
+export const getGoals = () => (dispatch, getState) =>
+  axios
+    .get('/goals', {
+      headers: { Authorization: `Bearer ${getState().auth.token}` },
+    })
+    .then(response => {
+      dispatch(getGoalsSuccess(response.data));
+      return Promise.resolve();
+    })
+    .catch(error => {
+      console.log(error);
+      return Promise.reject();
+    });

@@ -1,26 +1,19 @@
 import * as actions from '../actions/actionTypes';
 
 const initialState = {
-  token: null,
-  isLoading: false,
+  financeList: {},
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.AUTH_SUCCESS:
+    case actions.CREATE_NEW_FINANCE_SUCCESS:
       return {
         ...state,
-        token: action.token,
       };
-    case actions.AUTH_LOGOUT:
+    case actions.GET_FINANCES_LIST_SUCCESS:
       return {
         ...state,
-        token: null,
-      };
-    case actions.IS_LOADING:
-      return {
-        ...state,
-        isLoading: action.isLoading,
+        financeList: action.financeList,
       };
 
     default:

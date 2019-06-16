@@ -6,24 +6,29 @@ export const authSuccess = token => ({
   token,
 });
 
-export const auth = (code, password) => dispatch =>
-  axios
+export const auth = (code, password) => dispatch => {
+  dispatch(isLoading(true));
+  return axios
     .post('/login', { code, password })
     .then(response => {
       localStorage.setItem('token', response.data.access_token);
       dispatch(authSuccess(response.data.access_token));
+      dispatch(isLoading(false));
       return Promise.resolve();
     })
     .catch(error => {
+      dispatch(isLoading(false));
       return Promise.reject();
     });
+};
 
 export const logoutSuccess = () => ({
   type: actions.AUTH_LOGOUT,
 });
 
-export const logout = () => (dispatch, getState) =>
-  axios
+export const logout = () => (dispatch, getState) => {
+  dispatch(isLoading(true));
+  return axios
     .post(
       '/logout',
       {},
@@ -34,11 +39,14 @@ export const logout = () => (dispatch, getState) =>
     .then(() => {
       localStorage.removeItem('token');
       dispatch(logoutSuccess());
+      dispatch(isLoading(false));
       return Promise.resolve();
     })
     .catch(() => {
+      dispatch(isLoading(false));
       return Promise.reject();
     });
+};
 
 export const checkAuth = () => dispatch => {
   const token = localStorage.getItem('token');
@@ -48,3 +56,8 @@ export const checkAuth = () => dispatch => {
     dispatch(logoutSuccess());
   }
 };
+
+export const isLoading = isLoading => ({
+  type: actions.IS_LOADING,
+  isLoading,
+});

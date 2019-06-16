@@ -12,6 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { auth } from '../../store/actions/auth';
 
@@ -35,12 +36,12 @@ class Login extends Component {
 
     try {
       await onAuth(email, password);
-      history.push('/dashboard');
+      history.push('/metas/adicionar');
     } catch (error) {}
   };
 
   render() {
-    const { classes } = this.props;
+    const { isLoading, classes } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="static" color="primary">
@@ -84,7 +85,11 @@ class Login extends Component {
                   className={classes.button}
                   onClick={this.onConfirm}
                 >
-                  Entrar
+                  {isLoading ? (
+                    <CircularProgress color="inherit" className={classes.progress} />
+                  ) : (
+                    'Entrar'
+                  )}
                 </Button>
               </div>
             </CardActions>
@@ -144,8 +149,13 @@ const styles = {
 
 Login.propTypes = {
   onAuth: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = state => ({
+  isLoading: state.auth.isLoading,
+});
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (code, password) => dispatch(auth(code, password)),
@@ -153,7 +163,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(withStyles(styles)(Login))
 );

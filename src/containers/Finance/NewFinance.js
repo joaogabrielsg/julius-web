@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { createNewGoal } from '../../store/actions/goal';
+import { createNewFinance } from '../../store/actions/finance';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -18,16 +18,30 @@ class NewFinance extends Component {
 
     this.state = {
       title: '',
-      date: '',
       value: '',
     };
+  }
+
+  componentDidMount() {
+    const { location } = this.props;
+    const id = location.state.id;
+    console.log(id);
   }
 
   handleChange = field => event => {
     this.setState({ [field]: event.target.value });
   };
 
-  onConfirm = async () => {};
+  onConfirm = async () => {
+    const { onCreateNewFinance, location, history } = this.props;
+    const { title, value } = this.state;
+
+    const id = location.state.id;
+    try {
+      await onCreateNewFinance(id, title, value);
+      history.push('/dashboard');
+    } catch (error) {}
+  };
 
   render() {
     const { classes } = this.props;
@@ -51,8 +65,8 @@ class NewFinance extends Component {
                   className={classes.input}
                   id="standard-name"
                   label="Valor"
-                  value={this.state.date}
-                  onChange={this.handleChange('date')}
+                  value={this.state.value}
+                  onChange={this.handleChange('value')}
                   margin="normal"
                 />
               </div>
@@ -64,7 +78,7 @@ class NewFinance extends Component {
                 </Button>
               </div>
               <div className={classes.buttons}>
-                <Button color="secondary" className={classes.button}>
+                <Button color="secondary" className={classes.button} onClick={this.onConfirm}>
                   Confirmar
                 </Button>
               </div>
@@ -117,13 +131,12 @@ const styles = {
 };
 
 NewFinance.propTypes = {
-  onCreateNewGoal: PropTypes.func.isRequired,
+  onCreateNewFinance: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
-  onCreateNewGoal: (finishDate, title, totalValue) =>
-    dispatch(createNewGoal(finishDate, title, totalValue)),
+  onCreateNewFinance: (id, title, value) => dispatch(createNewFinance(id, title, value)),
 });
 
 export default withRouter(

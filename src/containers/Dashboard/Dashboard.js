@@ -49,7 +49,7 @@ class Dashboard extends Component {
                           <CircularProgress
                             className={classes.progress}
                             variant="static"
-                            value={25} //Calcular a porcentagem
+                            value={Math.round(goal.currentValue / goal.totalValue)} //Calcular a porcentagem
                           />
                           <Typography variant="h5" gutterBottom>
                             {`${goal.currentValue}/${goal.totalValue}`}

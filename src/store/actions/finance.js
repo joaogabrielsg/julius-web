@@ -5,32 +5,32 @@ import axios from '../../config/axiosInstance';
 
 import { isLoading } from './auth';
 
-export const createNewGoalSuccess = () => ({
-  type: actions.CREATE_NEW_GOAL_SUCCESS,
+export const createNewFinanceSuccess = () => ({
+  type: actions.CREATE_NEW_FINANCE_SUCCESS,
 });
 
-export const createNewGoal = (finishDate, title, totalValue) => (dispatch, getState) => {
+export const createNewFinance = (id, title, value) => (dispatch, getState) => {
+  console.log('Valores');
+  console.log(title);
+  console.log(value);
   dispatch(isLoading(true));
   return axios
     .post(
-      '/goals',
+      `/goals/${id}/finances`,
       {
-        finishDate: moment(finishDate, 'DD/MM/YYYY').toISOString(),
-        startDate: moment().toISOString(),
+        id,
+        insertAt: moment().toISOString(),
         title,
-        totalValue,
-        id: 0,
-        closed: false,
-        currentValue: 0,
-        wasReached: true,
+        value,
       },
       {
         headers: { Authorization: `Bearer ${getState().auth.token}` },
       }
     )
     .then(response => {
+      console.log(response);
       dispatch(isLoading(false));
-      dispatch(createNewGoalSuccess(response));
+      dispatch(createNewFinanceSuccess());
       return Promise.resolve(response);
     })
     .catch(error => {
@@ -40,19 +40,19 @@ export const createNewGoal = (finishDate, title, totalValue) => (dispatch, getSt
     });
 };
 
-export const getGoalsSuccess = goalsList => ({
-  type: actions.GET_GOALS_LIST_SUCCESS,
-  goalsList,
+export const getFinancesSuccess = financesList => ({
+  type: actions.GET_FINANCES_LIST_SUCCESS,
+  financesList,
 });
 
-export const getGoals = () => (dispatch, getState) =>
+export const getFinances = () => (dispatch, getState) =>
   axios
-    .get('/goals', {
+    .get('/finances', {
       headers: { Authorization: `Bearer ${getState().auth.token}` },
     })
     .then(response => {
-      dispatch(getGoalsSuccess(response.data));
-      return Promise.resolve(response);
+      dispatch(getFinancesSuccess(response.data));
+      return Promise.resolve();
     })
     .catch(error => {
       console.log(error);

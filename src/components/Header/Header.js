@@ -26,12 +26,15 @@ const Header = ({ onLogout, classes }) => {
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" color="primary" className={classes.grow}>
             Julius
           </Typography>
+          <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
+            {/* <MenuIcon /> */}
+            <Button color="primary" className={classes.button}>
+              FINANCEIRO
+            </Button>
+          </IconButton>
           <Button color="primary" variant="contained" onClick={onLogout}>
             Sair
           </Button>

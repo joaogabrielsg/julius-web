@@ -11,6 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class NewGoal extends Component {
   constructor() {
@@ -32,13 +33,18 @@ class NewGoal extends Component {
     const { title, date, value } = this.state;
 
     try {
-      await onCreateNewGoal(title, date, value);
-      history.push('/dashboard');
-    } catch (error) {}
+      const response = await onCreateNewGoal(date, title, value);
+      history.push({
+        pathname: '/financas/adicionar',
+        state: { id: response.data.id },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
-    const { classes } = this.props;
+    const { isLoading, classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.cardContainer}>
@@ -76,16 +82,22 @@ class NewGoal extends Component {
               </div>
             </CardContent>
             <CardActions>
-              <div className={classes.buttons}>
-                <Button style={{ color: '#DE5246' }} className={classes.button}>
-                  Cancelar
-                </Button>
-              </div>
-              <div className={classes.buttons}>
-                <Button color="secondary" className={classes.button} onClick={this.onConfirm}>
-                  Confirmar
-                </Button>
-              </div>
+              {!isLoading ? (
+                <React.Fragment>
+                  <div className={classes.buttons}>
+                    <Button style={{ color: '#DE5246' }} className={classes.button}>
+                      Cancelar
+                    </Button>
+                  </div>
+                  <div className={classes.buttons}>
+                    <Button color="secondary" className={classes.button} onClick={this.onConfirm}>
+                      Confirmar
+                    </Button>
+                  </div>
+                </React.Fragment>
+              ) : (
+                <CircularProgress color="secondary" className={classes.progress} />
+              )}
             </CardActions>
           </Card>
         </div>
@@ -98,6 +110,8 @@ const styles = {
   root: {
     colorPrimary: '#993399',
     height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     flexGrow: 1,
@@ -135,9 +149,14 @@ const styles = {
 };
 
 NewGoal.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   onCreateNewGoal: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = state => ({
+  isLoading: state.auth.isLoading,
+});
 
 const mapDispatchToProps = dispatch => ({
   onCreateNewGoal: (finishDate, title, totalValue) =>
@@ -146,7 +165,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(withStyles(styles)(NewGoal))
 );

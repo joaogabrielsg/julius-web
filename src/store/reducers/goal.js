@@ -2,6 +2,7 @@ import * as actions from '../actions/actionTypes';
 
 const initialState = {
   goalsList: {},
+  userProgress: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         goalsList: action.goalsList,
+      };
+    case actions.GET_USER_PROGRESS_SUCCESS:
+      return {
+        ...state,
+        userProgress: action.userProgress,
       };
 
     default:

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { getGoals } from '../../store/actions/goal';
+import { getGoals, getUserProgress } from '../../store/actions/goal';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -21,12 +21,13 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { onGetGoals } = this.props;
+    const { onGetGoals, onGetUserProgress } = this.props;
     onGetGoals();
+    onGetUserProgress();
   }
 
   render() {
-    const { goalsList, classes } = this.props;
+    const { goalsList, userProgress, classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.cardContainer}>
@@ -39,31 +40,53 @@ class Dashboard extends Component {
                       {goalsMonth}
                     </Typography>
                   </div>
-                  <GridList className={classes.gridList} cols={3.5}>
-                    {goalsList[goalsMonth].map(goal => (
-                      <GridListTile key={goal.id}>
-                        <div style={styles.goal}>
-                          <Typography variant="h5" gutterBottom>
-                            {goal.title}
-                          </Typography>
-                          <CircularProgress
-                            className={classes.progress}
-                            variant="static"
-                            value={Math.round(goal.currentValue / goal.totalValue)} //Calcular a porcentagem
-                          />
-                          <Typography variant="h5" gutterBottom>
-                            {`${goal.currentValue}/${goal.totalValue}`}
-                          </Typography>
-                        </div>
-                      </GridListTile>
-                    ))}
-                  </GridList>
+                  {goalsList[goalsMonth] ? (
+                    <GridList className={classes.gridList} cols={3.5}>
+                      {goalsList[goalsMonth].map(goal => (
+                        <GridListTile key={goal.id}>
+                          <div style={styles.goal}>
+                            <Typography variant="h5" gutterBottom>
+                              {goal.title}
+                            </Typography>
+                            <CircularProgress
+                              className={classes.progress}
+                              variant="static"
+                              size={60}
+                              thickness={4}
+                              value={goal.currentValue / goal.totalValue}
+                            />
+                            <Typography variant="h5" gutterBottom>
+                              {`${goal.currentValue}/${goal.totalValue}`}
+                            </Typography>
+                          </div>
+                        </GridListTile>
+                      ))}
+                    </GridList>
+                  ) : null}
                 </div>
               ))}
             </CardContent>
           </Card>
           <Card className={classes.cardInfo}>
-            <CardContent />
+            <CardContent>
+              <div className={classes.userProgress}>
+                <Typography variant="h3" gutterBottom>
+                  Progresso
+                </Typography>
+                <div className={classes.userProgressContent}>
+                  <CircularProgress
+                    className={classes.progress}
+                    variant="static"
+                    size={100}
+                    thickness={6}
+                    value={userProgress.completeGoals / userProgress.totalGoals} //Calcular a porcentagem
+                  />
+                  <Typography variant="h5" gutterBottom>
+                    {`${userProgress.completeGoals}/${userProgress.totalGoals}`}
+                  </Typography>
+                </div>
+              </div>
+            </CardContent>
           </Card>
         </div>
       </div>
@@ -96,6 +119,9 @@ const styles = {
     marginLeft: 20,
     paddingTop: 30,
     paddingBottom: 30,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   progressBarRow: {
     flexDirection: 'row',
@@ -124,23 +150,37 @@ const styles = {
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
-  pos: {
-    marginBottom: 12,
+  userProgress: {
+    width: '100%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userProgressContent: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 };
 
 Dashboard.propTypes = {
   onGetGoals: PropTypes.func.isRequired,
   goalsList: PropTypes.shape.isRequired,
+  onGetUserProgress: PropTypes.func.isRequired,
+  userProgress: PropTypes.shape.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   goalsList: state.goal.goalsList,
+  userProgress: state.goal.userProgress,
 });
 
 const mapDispatchToProps = dispatch => ({
   onGetGoals: () => dispatch(getGoals()),
+  onGetUserProgress: () => dispatch(getUserProgress()),
 });
 
 export default withRouter(

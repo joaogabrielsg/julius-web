@@ -58,3 +58,22 @@ export const getGoals = () => (dispatch, getState) =>
       console.log(error);
       return Promise.reject();
     });
+
+export const getUserProgressSuccess = userProgress => ({
+  type: actions.GET_USER_PROGRESS_SUCCESS,
+  userProgress,
+});
+
+export const getUserProgress = () => (dispatch, getState) =>
+  axios
+    .get('/user-progress', {
+      headers: { Authorization: `Bearer ${getState().auth.token}` },
+    })
+    .then(response => {
+      dispatch(getUserProgressSuccess(response.data));
+      return Promise.resolve(response);
+    })
+    .catch(error => {
+      console.log(error);
+      return Promise.reject(error);
+    });

@@ -1,7 +1,7 @@
 import * as actions from '../actions/actionTypes';
 
 const initialState = {
-  financeList: {},
+  financesList: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
     case actions.GET_FINANCES_LIST_SUCCESS:
       return {
         ...state,
-        financeList: action.financeList,
+        financesList: action.financesList,
       };
 
     default:

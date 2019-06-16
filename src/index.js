@@ -11,6 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import authReducer from './store/reducers/auth';
 import goalReducer from './store/reducers/goal';
+import financeReducer from './store/reducers/finance';
 
 const composeEnhancers =
   (process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null) ||
@@ -19,6 +20,7 @@ const composeEnhancers =
 const rootReducer = combineReducers({
   auth: authReducer,
   goal: goalReducer,
+  finance: financeReducer,
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

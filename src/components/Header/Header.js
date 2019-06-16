@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-const Header = ({ onLogout, classes }) => {
+const Header = ({ onLogout, onDash, onFinances, classes }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -30,9 +30,13 @@ const Header = ({ onLogout, classes }) => {
             Julius
           </Typography>
           <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
-            {/* <MenuIcon /> */}
-            <Button color="primary" className={classes.button}>
+            <Button color="primary" className={classes.button} onClick={onFinances}>
               FINANCEIRO
+            </Button>
+          </IconButton>
+          <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
+            <Button color="primary" className={classes.button} onClick={onDash}>
+              INICIO
             </Button>
           </IconButton>
           <Button color="primary" variant="contained" onClick={onLogout}>

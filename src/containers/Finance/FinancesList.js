@@ -10,6 +10,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
+import GridList from '@material-ui/core/GridList';
+
 class FinancesList extends Component {
   constructor() {
     super();
@@ -26,20 +28,22 @@ class FinancesList extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.cardContainer}>
-          {financesList.map(finance => (
-            <Card className={classes.card}>
-              <CardContent className={classes.cardContent}>
-                <div className={classes.row}>
-                  <Typography variant="h4" gutterBottom>
-                    {finance.title}
-                  </Typography>
-                  <Typography variant="h5" gutterBottom>
-                    {`R$ ${finance.value},00`}
-                  </Typography>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          <GridList cellHeight={90} className={classes.gridList} cols={1}>
+            {financesList.map(finance => (
+              <Card className={classes.card}>
+                <CardContent className={classes.cardContent}>
+                  <div className={classes.row}>
+                    <Typography variant="h4" gutterBottom>
+                      {finance.title}
+                    </Typography>
+                    <Typography variant="h5" gutterBottom>
+                      {`R$ ${finance.value},00`}
+                    </Typography>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </GridList>
         </div>
       </div>
     );
@@ -53,14 +57,16 @@ const styles = {
   },
   cardContainer: {
     display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 150,
   },
   card: {
     width: '50%',
-    paddingTop: 15,
-    paddingBottom: 10,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cardContent: {
     flexDirection: 'column',
@@ -78,6 +84,13 @@ const styles = {
   buttons: {
     width: '100%',
     display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gridList: {
+    flexDirection: 'column',
+    width: '70%',
+    flexWrap: 'nowrap',
     alignItems: 'center',
     justifyContent: 'center',
   },

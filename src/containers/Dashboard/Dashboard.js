@@ -12,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import Button from '@material-ui/core/Button';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 class Dashboard extends Component {
@@ -26,6 +27,15 @@ class Dashboard extends Component {
     onGetUserProgress();
   }
 
+  addFinanceOnGoal = id => {
+    const { history } = this.props;
+
+    history.push({
+      pathname: '/financas/adicionar',
+      state: { id: id },
+    });
+  };
+
   render() {
     const { goalsList, userProgress, classes } = this.props;
     return (
@@ -34,9 +44,9 @@ class Dashboard extends Component {
           <Card className={classes.card}>
             <CardContent>
               {Object.keys(goalsList).map(goalsMonth => (
-                <div>
+                <div className={{ height: '100%' }}>
                   <div>
-                    <Typography variant="h2" gutterBottom>
+                    <Typography variant="h3" gutterBottom>
                       {goalsMonth}
                     </Typography>
                   </div>
@@ -51,13 +61,23 @@ class Dashboard extends Component {
                             <CircularProgress
                               className={classes.progress}
                               variant="static"
-                              size={60}
+                              size={50}
                               thickness={4}
-                              value={goal.currentValue / goal.totalValue}
+                              value={(goal.currentValue / goal.totalValue) * 100}
                             />
                             <Typography variant="h5" gutterBottom>
                               {`${goal.currentValue}/${goal.totalValue}`}
                             </Typography>
+                            {goal.closed ? (
+                              <Button color="secondary" />
+                            ) : (
+                              <Button
+                                color="secondary"
+                                onClick={() => this.addFinanceOnGoal(goal.id)}
+                              >
+                                Adicionar Finança
+                              </Button>
+                            )}
                           </div>
                         </GridListTile>
                       ))}
@@ -79,7 +99,7 @@ class Dashboard extends Component {
                     variant="static"
                     size={100}
                     thickness={6}
-                    value={userProgress.completeGoals / userProgress.totalGoals} //Calcular a porcentagem
+                    value={(userProgress.completeGoals / userProgress.totalGoals) * 100} //Calcular a porcentagem
                   />
                   <Typography variant="h5" gutterBottom>
                     {`${userProgress.completeGoals}/${userProgress.totalGoals}`}
@@ -131,10 +151,11 @@ const styles = {
     justifyContent: 'center',
   },
   goal: {
+    height: '100%',
     flexDirection: 'column',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   input: {
     width: '80%',
@@ -146,6 +167,7 @@ const styles = {
     justifyContent: 'center',
   },
   gridList: {
+    height: '100%',
     flexWrap: 'nowrap',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',

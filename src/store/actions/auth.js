@@ -8,28 +8,20 @@ export const authSuccess = token => ({
   token,
 });
 
-export const auth = (code, password) => dispatch => {
+export const auth = (code, password) => async dispatch => {
   dispatch(isLoading(true));
-  return axios
-    .post('/login', { code, password })
-    .then(response => {
-      localStorage.setItem('token', response.data.access_token);
-      dispatch(authSuccess(response.data.access_token));
-      return dispatch(getGoals())
-        .then(responseGoals => {
-          dispatch(isLoading(false));
-          return Promise.resolve(responseGoals.data);
-        })
-        .catch(error => {
-          console.log('nao foi');
-          dispatch(isLoading(false));
-          return Promise.reject(error);
-        });
-    })
-    .catch(error => {
-      dispatch(isLoading(false));
-      return Promise.reject(error);
-    });
+  try {
+    const response = await axios.post('/login', { code, password });
+    localStorage.setItem('token', response.data.access_token);
+    dispatch(authSuccess(response.data.access_token));
+
+    const responseGoals = await dispatch(getGoals());
+    dispatch(isLoading(false));
+    return Promise.resolve(responseGoals.data);
+  } catch (error) {
+    dispatch(isLoading(false));
+    return Promise.reject(error);
+  }
 };
 
 export const logoutSuccess = () => ({

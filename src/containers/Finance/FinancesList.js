@@ -9,6 +9,7 @@ import { getFinances } from '../../store/actions/finance';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import GridList from '@material-ui/core/GridList';
 
@@ -28,17 +29,25 @@ class FinancesList extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.cardContainer}>
-          <GridList cellHeight={90} className={classes.gridList} cols={1}>
+          <GridList cellHeight={70} className={classes.gridList} cols={1}>
             {financesList.map(finance => (
-              <Card className={classes.card}>
+              <Card key={finance.id} className={classes.card}>
                 <CardContent className={classes.cardContent}>
-                  <div className={classes.row}>
-                    <Typography variant="h4" gutterBottom>
-                      {finance.title}
-                    </Typography>
-                    <Typography variant="h5" gutterBottom>
-                      {`R$ ${finance.value},00`}
-                    </Typography>
+                  {/* <div className={classes.row}> */}
+                  <Typography variant="h5" gutterBottom>
+                    {finance.title}
+                  </Typography>
+                  <Typography style={{ color: '#666666' }} variant="h6" gutterBottom>
+                    {`R$ ${finance.value},00`}
+                  </Typography>
+                  <div>
+                    <Button style={{ color: '#DE5246' }} className={classes.button}>
+                      Apagar
+                    </Button>
+                    <Button color="secondary" className={classes.button} onClick={this.onConfirm}>
+                      Editar
+                    </Button>
+                    {/* </div> */}
                   </div>
                 </CardContent>
               </Card>
@@ -65,14 +74,15 @@ const styles = {
   card: {
     width: '50%',
     marginBottom: 20,
+    padding: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cardContent: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   row: {
     flexDirection: 'row',
@@ -80,12 +90,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  buttons: {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   gridList: {
     flexDirection: 'column',

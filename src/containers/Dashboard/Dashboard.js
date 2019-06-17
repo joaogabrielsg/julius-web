@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Button from '@material-ui/core/Button';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 class Dashboard extends Component {
   constructor() {
@@ -52,7 +51,7 @@ class Dashboard extends Component {
                   </div>
                   {goalsList[goalsMonth] ? (
                     <GridList className={classes.gridList} cols={3.5}>
-                      {goalsList[goalsMonth].map(goal => (
+                      {goalsList[goalsMonth].reverse().map(goal => (
                         <GridListTile key={goal.id}>
                           <div style={styles.goal}>
                             <Typography variant="h5" gutterBottom>
@@ -69,7 +68,9 @@ class Dashboard extends Component {
                               {`${goal.currentValue}/${goal.totalValue}`}
                             </Typography>
                             {goal.closed ? (
-                              <Button color="secondary" />
+                              <Typography style={{ color: '#DE5246' }} variant="h6" gutterBottom>
+                                Fechado
+                              </Typography>
                             ) : (
                               <Button
                                 color="secondary"

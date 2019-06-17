@@ -31,6 +31,7 @@ class App extends React.Component {
                 }}
                 onFinances={() => history.push('/financas/listar')}
                 onDash={() => history.push('/dashboard')}
+                onAddGoal={() => history.push('/metas/adicionar')}
               />
               <Switch>
                 <Route path="/metas/adicionar" exact component={NewGoal} />

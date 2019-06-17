@@ -44,7 +44,7 @@ class NewGoal extends Component {
   };
 
   render() {
-    const { isLoading, classes } = this.props;
+    const { isLoading, history, classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.cardContainer}>
@@ -85,7 +85,11 @@ class NewGoal extends Component {
               {!isLoading ? (
                 <React.Fragment>
                   <div className={classes.buttons}>
-                    <Button style={{ color: '#DE5246' }} className={classes.button}>
+                    <Button
+                      style={{ color: '#DE5246' }}
+                      className={classes.button}
+                      onClick={() => history.push('/dashboard')}
+                    >
                       Cancelar
                     </Button>
                   </div>

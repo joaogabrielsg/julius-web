@@ -20,7 +20,7 @@ const styles = {
   },
 };
 
-const Header = ({ onLogout, onDash, onFinances, classes }) => {
+const Header = ({ onLogout, onDash, onAddGoal, onFinances, classes }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -28,6 +28,11 @@ const Header = ({ onLogout, onDash, onFinances, classes }) => {
           <Typography variant="h6" color="primary" className={classes.grow}>
             Julius
           </Typography>
+          <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
+            <Button color="primary" className={classes.button} onClick={onAddGoal}>
+              ADICIONAR META
+            </Button>
+          </IconButton>
           <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
             <Button color="primary" className={classes.button} onClick={onFinances}>
               FINANCEIRO
@@ -48,6 +53,9 @@ const Header = ({ onLogout, onDash, onFinances, classes }) => {
 };
 
 Header.propTypes = {
+  onDash: PropTypes.func.isRequired,
+  onAddGoal: PropTypes.func.isRequired,
+  onFinances: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };

@@ -1,6 +1,8 @@
 import * as actions from './actionTypes';
 import axios from '../../config/axiosInstance';
 
+import { getGoals } from './goal';
+
 export const authSuccess = token => ({
   type: actions.AUTH_SUCCESS,
   token,
@@ -13,12 +15,20 @@ export const auth = (code, password) => dispatch => {
     .then(response => {
       localStorage.setItem('token', response.data.access_token);
       dispatch(authSuccess(response.data.access_token));
-      dispatch(isLoading(false));
-      return Promise.resolve();
+      return dispatch(getGoals())
+        .then(responseGoals => {
+          dispatch(isLoading(false));
+          return Promise.resolve(responseGoals.data);
+        })
+        .catch(error => {
+          console.log('nao foi');
+          dispatch(isLoading(false));
+          return Promise.reject(error);
+        });
     })
     .catch(error => {
       dispatch(isLoading(false));
-      return Promise.reject();
+      return Promise.reject(error);
     });
 };
 

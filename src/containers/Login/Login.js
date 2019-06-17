@@ -35,8 +35,12 @@ class Login extends Component {
     const { email, password } = this.state;
 
     try {
-      await onAuth(email, password);
-      history.push('/metas/adicionar');
+      const response = await onAuth(email, password);
+      if (Object.keys(response).length > 0) {
+        history.push('/dashboard');
+      } else {
+        history.push('/metas/adicionar');
+      }
     } catch (error) {}
   };
 

@@ -64,7 +64,7 @@ class NewGoal extends Component {
                 <TextField
                   className={classes.input}
                   id="standard-name"
-                  label="Data de inicio do objetivo"
+                  label="Data de inicio do objetivo (DD/MM/YYYY)"
                   value={this.state.date}
                   onChange={this.handleChange('date')}
                   margin="normal"

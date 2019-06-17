@@ -58,3 +58,22 @@ export const getFinances = () => (dispatch, getState) =>
       console.log(error);
       return Promise.reject();
     });
+
+export const deleteFinancesSuccess = financeId => ({
+  type: actions.DELETE_FINANCES_SUCCESS,
+  financeId,
+});
+
+export const deleteFinances = (goalId, financeId) => (dispatch, getState) =>
+  axios
+    .delete(`/goals/${goalId}/finances/${financeId}`, {
+      headers: { Authorization: `Bearer ${getState().auth.token}` },
+    })
+    .then(response => {
+      dispatch(deleteFinancesSuccess(financeId));
+      return Promise.resolve();
+    })
+    .catch(error => {
+      console.log(error);
+      return Promise.reject();
+    });

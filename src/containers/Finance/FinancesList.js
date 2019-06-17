@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { getFinances } from '../../store/actions/finance';
+import { getFinances, deleteFinances } from '../../store/actions/finance';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -25,7 +25,7 @@ class FinancesList extends Component {
   }
 
   render() {
-    const { financesList, classes } = this.props;
+    const { financesList, onDeleteFinances, classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.cardContainer}>
@@ -41,7 +41,11 @@ class FinancesList extends Component {
                     {`R$ ${finance.value},00`}
                   </Typography>
                   <div>
-                    <Button style={{ color: '#DE5246' }} className={classes.button}>
+                    <Button
+                      style={{ color: '#DE5246' }}
+                      className={classes.button}
+                      onClick={() => onDeleteFinances(finance.goalId, finance.id)}
+                    >
                       Apagar
                     </Button>
                     <Button color="secondary" className={classes.button} onClick={this.onConfirm}>
@@ -112,6 +116,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onGetFinances: () => dispatch(getFinances()),
+  onDeleteFinances: (goalId, financeId) => dispatch(deleteFinances(goalId, financeId)),
 });
 
 export default withRouter(

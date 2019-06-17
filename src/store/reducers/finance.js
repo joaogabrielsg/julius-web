@@ -15,6 +15,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         financesList: action.financesList,
       };
+    case actions.DELETE_FINANCES_SUCCESS:
+      return {
+        ...state,
+        financesList: state.financesList.filter(finance => finance.id !== action.financeId),
+      };
 
     default:
       return state;
